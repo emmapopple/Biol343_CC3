@@ -1,6 +1,6 @@
 ---
 title: "BIOL343 Coding Challenge 3"
-author: "Group # — names and student numbers in the chunk below"
+author: "Group 6 — names and student numbers in the chunk below"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
 output: html_document
 ---
@@ -16,11 +16,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r group_members}
 # Name - Queen's Student Number
 
-# 1.
+# 1. Emma Popple - 20467453
 
 ```
 
-**Scenario chosen** (hospital or lakes; see the instructions):
+**Scenario chosen** (hospital or lakes; see the instructions): Hospital
 
 # DO THIS FIRST {-}
 
@@ -43,7 +43,7 @@ The three files are in the `data` folder: `Dataset1.csv`, `Dataset2.csv`, `Datas
 Load the packages you will use (Chapter 10, *Setup*): `dplyr`, `tidyr`, `lubridate`, `readr` and `ggplot2` (or `tidyverse`, which loads all of them).
 
 ```{r load-packages, message=FALSE}
-
+library(tidyverse)
 ```
 
 ## 2. Import the three files
@@ -52,11 +52,11 @@ Import each file and save them as `data1`, `data2` and `data3` (Chapter 10, *tib
 
 ```{r import-data}
 
-# data1 <-
+data1 <- read_csv("data/Dataset1.csv")
 
-# data2 <-
+data2 <- read_csv("data/Dataset2.csv")
 
-# data3 <-
+data3 <- read_delim("data/Dataset3.csv", delim = ";")
 
 ```
 
@@ -65,25 +65,40 @@ Import each file and save them as `data1`, `data2` and `data3` (Chapter 10, *tib
 Use `str()` on all three objects.
 
 ```{r inspect-data}
+str(data1)
 
+str(data2)
+
+str(data3)
 ```
 
 **Question 1:** Which columns did R import as a type you did not expect, and what in the raw files caused it? (Look at the values in those columns.)
 
-**Answer:**
+**Answer:** R imported the PC1 and PC2 columns in data2 and data3 as character data instead of numeric data. This is likely because of the quotation marks around each value.
 
 ## 4. Fix the missing values
 
 The columns from Question 1 contain words where numbers are expected. Use `mutate()` (Chapter 10, *mutate() Columns*) with `as.numeric()` to convert them; R replaces anything it cannot read as a number with `NA` (the warning `NAs introduced by coercion` is expected here). Then count the missing values in each converted column with `sum(is.na())` (Chapter 10, *is.na()*).
 
 ```{r fix-missing}
+data2 <- data2 %>%
+    mutate(
+        PC1 = as.numeric(PC1),
+        PC2 = as.numeric(PC2)
+    )
 
-# data2 <-
-
-# data3 <-
+data3 <- data3 %>%
+    mutate(
+        PC1 = as.numeric(PC1),
+        PC2 = as.numeric(PC2)
+    )
 
 # count the NAs
+sum(is.na(data2$PC1))
+sum(is.na(data2$PC2))
 
+sum(is.na(data3$PC1))
+sum(is.na(data3$PC2))
 ```
 
 ## 5. Rename the measurement columns
@@ -91,19 +106,22 @@ The columns from Question 1 contain words where numbers are expected. Use `mutat
 `data2` and `data3` both have columns called `PC1` and `PC2`. Use `rename()` (Chapter 10, *rename() Columns*) to give them names that say where they came from, for example `micro_PC1`/`micro_PC2` and `urine_PC1`/`urine_PC2` (hospital) or `invert_PC1`/`invert_PC2` and `chem_PC1`/`chem_PC2` (lakes). Check the result with `names()`.
 
 ```{r rename-columns}
-
+data2 <- rename(data2, micro_PC1 = PC1, micro_PC2 = PC2)
+data3 <- rename(data3, urine_PC1 = PC1, Urine_PC2 = PC2)
 ```
 
 **Question 2:** What would have happened to these column names if you had joined `data2` and `data3` without renaming? (Try it in the Console if you are not sure.)
 
-**Answer:**
+**Answer:** 
 
 ## 6. Make sure `Date` is a date
 
 Check `class()` of the `Date` column in each of the three objects. If any of them is `character`, convert it with `ymd()` from `lubridate` (Chapter 10, *date Objects*). All three must be the same class before you join, or the join will refuse to match them.
 
 ```{r fix-dates}
-
+class(data1$Date)
+class(data2$Date)
+class(data3$Date)
 ```
 
 # Part 2 — Join the files
@@ -113,9 +131,8 @@ Check `class()` of the `Date` column in each of the three objects. If any of the
 Combine the three objects into one called `all_data` with `full_join()` (Chapter 10, *Join Datasets*), matching rows that have the same `ID` **and** the same `Date`: `by = c("ID", "Date")`. Two joins are needed. Check the dimensions.
 
 ```{r full-join}
-
-# all_data <-
-
+all_data <- full_join(data1, data2, by = c("ID", "Date")) #join data 1 and data 2
+all_data <- full_join(all_data, data3, by = c("ID", "Date")) #join data 1 and 2 to data3
 ```
 
 ## 8. Compare the join verbs
@@ -123,15 +140,17 @@ Combine the three objects into one called `all_data` with `full_join()` (Chapter
 Using only `data1` and `data2`, report the number of rows returned by `inner_join()`, `left_join()`, `right_join()` and `full_join()` (all `by = c("ID", "Date")`). `nrow()` is enough; do not print the tables.
 
 ```{r compare-joins}
+# inner - 782 rows
+nrow(inner_join(data1, data2, by = c("ID", "Date")))
 
-# inner
+# left - 794 rows
+nrow(left_join(data1, data2, by = c("ID", "Date")))
 
-# left
+# right - 788 rows
+nrow(right_join(data1, data2, by = c("ID", "Date")))
 
-# right
-
-# full
-
+# full - 800
+nrow(full_join(data1, data2, by = c("ID", "Date")))
 ```
 
 **Question 3:** The four numbers differ. Explain which rows each verb keeps, and what that tells you about samples that are in one file but not the other.
