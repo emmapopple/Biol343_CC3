@@ -11,7 +11,7 @@
 
 <meta name="author" content="Group 6 — names and student numbers in the chunk below" />
 
-<meta name="date" content="2026-10-01" />
+<meta name="date" content="2026-10-02" />
 
 <title>BIOL343 Coding Challenge 3</title>
 
@@ -353,7 +353,7 @@ display: none;
 <h1 class="title toc-ignore">BIOL343 Coding Challenge 3</h1>
 <h4 class="author">Group 6 — names and student numbers in the chunk
 below</h4>
-<h4 class="date">01 October 2026</h4>
+<h4 class="date">02 October 2026</h4>
 
 </div>
 
@@ -463,7 +463,7 @@ that sets the separator.</p>
 ##   ..   Date = col_date(format = &quot;&quot;),
 ##   ..   Conc = col_double()
 ##   .. )
-##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x333a58860&gt;</code></pre>
+##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x34ae3e290&gt;</code></pre>
 <pre class="r"><code>str(data2)</code></pre>
 <pre><code>## spc_tbl_ [788 × 4] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ ID  : num [1:788] 3288208 7848312 7272390 6217553 8941937 ...
@@ -477,7 +477,7 @@ that sets the separator.</p>
 ##   ..   PC1 = col_character(),
 ##   ..   PC2 = col_character()
 ##   .. )
-##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x334808010&gt;</code></pre>
+##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x325921460&gt;</code></pre>
 <pre class="r"><code>str(data3)</code></pre>
 <pre><code>## spc_tbl_ [792 × 4] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ ID  : num [1:792] 3140930 9478460 3008241 3131659 4629334 ...
@@ -491,7 +491,7 @@ that sets the separator.</p>
 ##   ..   PC1 = col_character(),
 ##   ..   PC2 = col_character()
 ##   .. )
-##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x3144581b0&gt;</code></pre>
+##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x348956590&gt;</code></pre>
 <p><strong>Question 1:</strong> Which columns did R import as a type you
 did not expect, and what in the raw files caused it? (Look at the values
 in those columns.)</p>
@@ -616,7 +616,13 @@ nrow(full_join(data1, data2, by = c(&quot;ID&quot;, &quot;Date&quot;)))</code></
 <p><strong>Question 3:</strong> The four numbers differ. Explain which
 rows each verb keeps, and what that tells you about samples that are in
 one file but not the other.</p>
-<p><strong>Answer:</strong></p>
+<p><strong>Answer:</strong> The four joins keep different sets of rows.
+The inner join keeps only samples that are present in both files,
+resulting in 782 rows. The left join keeps all samples from data1,
+resulting in 794 rows, while the right join keeps all samples from
+data2, resulting in 788 rows. The full join keeps all samples from both
+files, resulting in 800 rows. The differences in row numbers show that
+some samples are present in one file but not the other.</p>
 </div>
 </div>
 <div id="part-3-dates-summaries-and-ordering" class="section level1">
@@ -801,7 +807,14 @@ arsenic levels have similar invertebrate communities and water
 chemistry)? Answer in a short paragraph from visual inspection of your
 figures. For now, assume that any strong pattern is statistically
 robust; later we will learn to test this with models.</p>
-<p><strong>Answer:</strong></p>
+<p><strong>Answer:</strong> There is not strong support of the
+hypothesis that patients with siliar viral loads have similar gut
+mirobiomes and urine metabolites. Although the 2021 and 2022 samples
+show some clustering, there is considerable overlap and variation within
+each year. The urine metabolite concentrations are also spread
+throughout the plots, with no clear separation between concentration
+levels. This suggests that patients with similar viral loads do not
+necessarily have similar urine metabolite profiles.</p>
 <p><strong>Question 7:</strong> Read the scenario you did not choose.
 What, if anything, would you have done differently in the code? What
 does this tell you about coding as a transferable skill?</p>

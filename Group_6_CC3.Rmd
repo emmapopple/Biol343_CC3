@@ -16,8 +16,17 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r group_members}
 # Name - Queen's Student Number
 
-# 1. Emma Popple - 20467453
+# 1. Emma Popple - 20467543
 
+# 2. Kaylee Ellwood - 20391007
+
+# 3. Margo Kaminska - 20449041
+
+# 4. Sabrina Baker - 20449887
+
+# 5. Victoria Gutierrez - 2051720
+
+# 6. Tea Hope - 20459579
 ```
 
 **Scenario chosen** (hospital or lakes; see the instructions): Hospital
