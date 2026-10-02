@@ -70,7 +70,7 @@ str(data3)
 
 **Question 1:** Which columns did R import as a type you did not expect, and what in the raw files caused it? (Look at the values in those columns.)
 
-**Answer:** R imported the PC1 and PC2 columns in data2 and data3 as character data instead of numeric data. This is likely because of the quotation marks around each value.
+**Answer:** R imported the `PC1` and `PC2` columns in `data2` and `data3` as character data instead of numeric data. This is likely because of the quotation marks around each value.
 
 ## 4. Fix the missing values
 
@@ -108,7 +108,7 @@ data3 <- rename(data3, urine_PC1 = PC1, urine_PC2 = PC2)
 
 **Question 2:** What would have happened to these column names if you had joined `data2` and `data3` without renaming? (Try it in the Console if you are not sure.)
 
-**Answer:** 
+**Answer:** If I had joined `data2` and `data3` without renaming the columns, R would have added `.x` and `.y` to the duplicate column names. The `PC1` and `PC2` columns from `data2` would become `PC1.x` and `PC2.x`, while the columns from `data3` would become `PC1.y` and `PC2.y`. Renaming the columns before joining makes it clearer which PC scores represent the different datasets.
 
 ## 6. Make sure `Date` is a date
 
@@ -152,7 +152,7 @@ nrow(full_join(data1, data2, by = c("ID", "Date")))
 
 **Question 3:** The four numbers differ. Explain which rows each verb keeps, and what that tells you about samples that are in one file but not the other.
 
-**Answer:**
+**Answer:** The four joins keep different sets of rows. The inner join keeps only samples that are present in both files, resulting in 782 rows. The left join keeps all samples from data1, resulting in 794 rows, while the right join keeps all samples from data2, resulting in 788 rows. The full join keeps all samples from both files, resulting in 800 rows. The differences in row numbers show that some samples are present in one file but not the other.
 
 # Part 3 — Dates, summaries and ordering
 
@@ -261,16 +261,16 @@ sum(is.na(wide_conc$change))
 Use `ggplot()` to plot `PC1` on the x-axis and `PC2` on the y-axis for **one** of the two measurement sets, with `colour = Conc` so that concentration is shown by colour, and `facet_wrap()` by `Year`. Include `theme_classic()`, axis labels and a title (Chapter 4 and Chapter 7). Repeat for the other measurement set if it helps you answer Question 6. A few points will be **grey**: those are samples with no concentration value (`Conc` is `NA` because they were not in `Dataset1.csv`), so no colour can be assigned. Ignore them when you answer Question 6, or drop them first with `filter(!is.na(Conc))`.
 
 ```{r pc-scatter}
-ggplot(all_data, aes(x = micro_PC1, y = micro_PC2, colour = Conc)) +
-    geom_point() +
-    facet_wrap(~Year) +
-    labs(
-        title = "Microbial PC1 vs PC2 by Year",
-        x = "PC1",
-        y = "PC2",
-        colour = "Concentration"
-    ) +
-    theme_classic()
+ggplot(all_data, aes(x = urine_PC1, y = urine_PC2, colour = Conc)) +
+  geom_point() +
+  facet_wrap(~Year) +
+  labs(
+    title = "Urine PC1 vs PC2 by Year",
+    x = "PC1",
+    y = "PC2",
+    colour = "Concentration"
+  ) +
+  theme_classic()
 ```
 
 **Question 6:** What do the data say about the hypothesis in your scenario (patients with similar viral loads have similar gut microbes and urine metabolites, or lakes with similar arsenic levels have similar invertebrate communities and water chemistry)? Answer in a short paragraph from visual inspection of your figures. For now, assume that any strong pattern is statistically robust; later we will learn to test this with models.
@@ -279,7 +279,7 @@ ggplot(all_data, aes(x = micro_PC1, y = micro_PC2, colour = Conc)) +
 
 **Question 7:** Read the scenario you did not choose. What, if anything, would you have done differently in the code? What does this tell you about coding as a transferable skill?
 
-**Answer:**
+**Answer:** If I had chosen the other scenario most of the steps would have stayed the same, because the datasets are the same. The main differences would be the variable names and what the PC scores represent. Instead of viral concentration, I would analyze arsenic concentration, and the PC scores would represent invertebrate communities and water chemistry rather than gut microbes and urine metabolites. The visualizations and conclusions would also need to be interpreted in terms of lakes and habitat restoration instead. This shows that data is a transferrable skill because the same basic data organization works for two similar datasets that come from different collection sources.
 
 # DO THIS LAST {-}
 
