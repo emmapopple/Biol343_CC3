@@ -256,7 +256,7 @@ wide_conc <- wide_conc %>%
 
 sum(wide_conc$Change > 0, na.rm = TRUE)
 
-sum(is.na(wide_conc$change))
+sum(is.na(wide_conc$Change))
 ```
 
 **Question 5:** How many IDs have a higher concentration in the second year than in the first, and how many have `NA` for the change? Why are there NAs?
